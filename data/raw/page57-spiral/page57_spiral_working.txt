@@ -1,0 +1,22 @@
+# Page 57 dominant spiral — working crop
+
+Status: candidate working crop for visual inspection; geometric fitting has not been performed on this crop.
+
+## Provenance
+- Canonical source image: page 57 scan, 2400 × 3600 pixels.
+- Source SHA-256: 3f5af995b39f94f268d4aa94825a10f2429f4a3affa1921a7f627e6d1bfcfb69
+- Source coordinates: x = 160..460, y = 2246..2481 (zero-based pixel coordinates; half-open crop bounds [160, 461) × [2246, 2482)).
+- Crop dimensions: 301 × 236 pixels.
+- Crop file: page57_spiral_working.png
+- Transformations: rectangular crop only; no resizing, rotation, sharpening, or retouching.
+- Crop Git blob SHA: 876a7788fb5ef7dfd597a4e31577c09b15812280
+
+## Visual inspection (initial)
+- The dominant spiral loop and inner terminal are visible in full.
+- The spiral-to-stem junction is retained.
+- The connected stem continues beyond the top and bottom crop boundaries; those endpoints are not part of the spiral loop itself.
+- The crop is substantially tighter around the dominant spiral than the earlier left-side crop and is suitable for the next inspection step.
+- This is a framing assessment only, not evidence that the curve is logarithmic, golden, or Fibonacci-derived.
+
+## Next step
+Inspect the traced centerline/curve against the source pixels, document the tracing protocol, then compare the logarithmic golden spiral against plausible alternatives. Do not treat a visual resemblance alone as a positive fit.
