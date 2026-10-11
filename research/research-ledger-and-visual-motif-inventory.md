@@ -97,3 +97,12 @@ To close the chain of custody without guessing, obtain a read-only export of the
 ### Status
 
 Implementation review complete; page-specific crop provenance remains unverified pending the local database record. No original scan, trace points, or fit results were modified.
+
+
+### Page-57 database check (user-run, 2026-10-11)
+
+The user queried the local SQLite database read-only using the canonical source ID `3f167f8e-8aae-48ce-85a7-4e4f2e6b0794`. The source record matches the expected scan metadata above. The query returned **zero rows** from `regions` for that `source_image_id`; therefore no region rectangle or region revision is currently recorded for page 57. This is a verified absence in the queried database, not evidence that the crop itself is invalid.
+
+Inspection of `app/static/viewer.js` confirms that pointer selection coordinates are mapped from the displayed image to natural/source pixel coordinates, rounded and clamped to integer bounds, then drawn from the image into a canvas. The crop export downloads a PNG named `crop-x0-y0-x1-y1.png`. The source selection exists in client-side state until a region is explicitly saved; exporting the PNG does not save a region. Thus a filename can encode a candidate rectangle, but only matching the crop file, its dimensions, and the canonical source pixels can validate that association.
+
+Next verification: compute SHA-256 and dimensions for the exact working crop; parse the four integers from its original export filename if preserved; independently extract that rectangle from the canonical original scan using `extract_crop` with the recorded source hash/dimensions, encode to PNG, and compare decoded pixel arrays with the working crop. A pixel match establishes the rectangle despite the absent database region; a mismatch requires investigating resize/re-encoding or a different rectangle. Do not create a retrospective region record and represent it as contemporaneous provenance.
