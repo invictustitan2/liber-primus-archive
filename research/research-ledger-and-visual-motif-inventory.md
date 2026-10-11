@@ -71,3 +71,29 @@ For each relevant page, record:
 The repository currently exposes the above source index and research notes, but no dedicated consolidated ledger of the user's separate tree/root theories was found among tracked files in the parent archive at this inventory pass. Do not treat that as evidence those theories do not exist; they may be in the local annotation workbench, nested toolkit repository, or prior conversation. When they are found, import them as separate entries without collapsing or rewriting them.
 
 Suggested columns: `theory_id, original_statement, source_context, prediction, evidence_for, evidence_against, discriminating_test, status, confidence, linked_pages, linked_artifacts, revision_history`.
+
+
+## Provenance-tool implementation review (2026-10-11)
+
+Reviewed the connected private repository `invictustitan2/lp-annotation`, branch `master`, specifically `app/images.py`, `app/geometry.py`, `app/static/viewer.js`, `app/static/viewer.html`, `app/annotations.py`, `app/database.py`, `app/library.py`, and `app/exports.py`.
+
+### Verified implementation behavior
+
+- `app/images.py::inspect_image` opens the source, validates supported image format and dimensions, and computes SHA-256 over the original file bytes.
+- `verify_source_unchanged` compares current SHA-256 and dimensions to expected metadata; `extract_crop` can require those expected values and extracts from the original image with Pillow using the recorded rectangle.
+- `app/geometry.py::Rectangle` uses integer, half-open source-pixel coordinates `(x0, y0, x1, y1)`; right and bottom edges are excluded.
+- In the browser UI, `sourcePoint(event)` maps pointer coordinates through the displayed image's bounding rectangle into `naturalWidth`/`naturalHeight` coordinates. `finalizeSelection` rounds each bound to an integer, clamps it to image dimensions, rejects empty rectangles, and records the resulting coordinates in browser state.
+- `renderCrop` draws the selected source-image rectangle into a canvas of exactly `(x1-x0) × (y1-y0)`. Export serializes that canvas as PNG. Therefore the exported PNG is a derived/re-encoded crop, not a byte-preserving segment of the original file.
+- The export filename embeds the rectangle as `crop-x0-y0-x1-y1.png`. The inspected viewer code does not embed the original SHA-256, source-image ID, application version, or crop rectangle in PNG metadata, nor does it create a dedicated persistent crop-provenance record at export time.
+- Separately, saving a rectangle as an annotation stores its source-image ID, rectangle, observation/interpretation/status, and revision history in SQLite. That is a durable source-linked region record, but it is not proof that a particular exported PNG came from that region unless the filename, dimensions, pixels, and source record are independently matched.
+- The local runtime data directory is `~/.local/share/lp-annotation/`; the database and original source files are intentionally outside the source repository. The GitHub repository therefore provides the implementation, not the local page-57 database record or its original scan bytes.
+
+### Consequence for page-57 crop verification
+
+The implementation establishes how a crop *would* be generated, but it does not by itself establish which exact rectangle generated the currently analyzed page-57 crop. The known working crop hash `5d7e7e667d55ed9a44f22e486c462bdea43cdd7fae6ecbddc7d26900649d1c4a` identifies the crop file, not its source rectangle. The canonical source scan is recorded in the research context as SHA-256 `3f5af995b39f94f268d4aa94825a10f2429f4a3affa1921a7f627e6d1bfcfb69`, dimensions 2400×3600, but the local annotation database has not been queried in this review.
+
+To close the chain of custody without guessing, obtain a read-only export of the relevant local source-image row and page-57 region row/revisions from `~/.local/share/lp-annotation/annotations.sqlite3`, plus the crop file itself if pixel-level comparison is needed. Match source ID, source hash, source dimensions, rectangle, crop dimensions, and crop hash. Do not infer the rectangle from the crop filename alone or treat the canvas-exported PNG as the original scan.
+
+### Status
+
+Implementation review complete; page-specific crop provenance remains unverified pending the local database record. No original scan, trace points, or fit results were modified.
