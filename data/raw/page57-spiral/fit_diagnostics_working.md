@@ -20,7 +20,7 @@ The script preserves the submitted CSV and original fit output. It writes a sepa
 - signed angular progression and flags for unusually large angular steps;
 - leave-one-point-out parameter/error ranges as sensitivity diagnostics.
 
-To make the trace direction explicit, the script computes signed shortest angular increments in submitted point order and penalizes positive angular reversals for the outward trace. The penalty scale is an exposed heuristic, not a statistically calibrated quantity. Large angular steps are flagged, not silently corrected.
+The script jointly optimizes center and logarithmic-spiral parameters against radial pixel residuals. To make trace direction explicit, it computes signed shortest angular increments in submitted point order and penalizes positive angular reversals for the presumed outward trace. The penalty scale is an exposed heuristic, not a statistically calibrated quantity. Large angular steps are flagged, not silently corrected.
 
 ## Interpretation guardrails
 
