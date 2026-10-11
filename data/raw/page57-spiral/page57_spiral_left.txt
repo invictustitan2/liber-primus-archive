@@ -1,0 +1,8 @@
+Source image: data/pages/57.jpg
+Source SHA-256: 3f5af995b39f94f268d4aa94825a10f2429f4a3affa1921a7f627e6d1bfcfb69
+File size: 746,355 bytes
+Crop file: research/visual-evidence/page57_spiral_left.png
+Crop rectangle: [record x, y, width, height in source pixels]
+Transformations: rectangular crop only; no resizing, rotation, or retouching.
+Selection rationale: spiral and connected stem/branch retained.
+Research question: Does the curve fit a logarithmic golden spiral better than plausible alternative curves?
