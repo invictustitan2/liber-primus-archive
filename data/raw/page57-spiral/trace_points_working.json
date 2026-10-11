@@ -1,0 +1,14 @@
+{
+  "image": "data/raw/page57-spiral/page57_spiral_working.png",
+  "image_sha256": "5d7e7e667d55ed9a44f22e486c462bdea43cdd7fae6ecbddc7d26900649d1c4a",
+  "image_size_px": [
+    301,
+    236
+  ],
+  "coordinate_system": "crop-local pixels; origin top-left; x rightward; y downward",
+  "trace_definition": "manual centerline trace of dominant spiral loop only; stem excluded",
+  "direction": "outer loop toward inner terminal",
+  "point_count": 21,
+  "points_csv": "data/raw/page57-spiral/trace_points_working.csv",
+  "method": "interactive manual clicks; no smoothing or interpolation applied"
+}
