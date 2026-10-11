@@ -106,3 +106,23 @@ The user queried the local SQLite database read-only using the canonical source 
 Inspection of `app/static/viewer.js` confirms that pointer selection coordinates are mapped from the displayed image to natural/source pixel coordinates, rounded and clamped to integer bounds, then drawn from the image into a canvas. The crop export downloads a PNG named `crop-x0-y0-x1-y1.png`. The source selection exists in client-side state until a region is explicitly saved; exporting the PNG does not save a region. Thus a filename can encode a candidate rectangle, but only matching the crop file, its dimensions, and the canonical source pixels can validate that association.
 
 Next verification: compute SHA-256 and dimensions for the exact working crop; parse the four integers from its original export filename if preserved; independently extract that rectangle from the canonical original scan using `extract_crop` with the recorded source hash/dimensions, encode to PNG, and compare decoded pixel arrays with the working crop. A pixel match establishes the rectangle despite the absent database region; a mismatch requires investigating resize/re-encoding or a different rectangle. Do not create a retrospective region record and represent it as contemporaneous provenance.
+
+
+### Page-57 crop pixel verification — completed (2026-10-11)
+
+The user ran the verification locally against the actual application implementation from the project parent directory. Results:
+
+- Source record ID: `3f167f8e-8aae-48ce-85a7-4e4f2e6b0794`
+- Source SHA-256 verified: `3f5af995b39f94f268d4aa94825a10f2429f4a3affa1921a7f627e6d1bfcfb69`
+- Source dimensions: 2400×3600
+- Candidate rectangle: `(160, 2246, 461, 2482)`, half-open source-pixel bounds
+- Working crop dimensions: 301×236
+- Working crop SHA-256: `5d7e7e667d55ed9a44f22e486c462bdea43cdd7fae6ecbddc7d26900649d1c4a`
+- Crop re-extracted from the canonical source through `app.images.extract_crop`, with expected source SHA-256 and dimensions supplied: 301×236
+- Decoded RGB pixel arrays: exact match (`ImageChops.difference(...).getbbox() is None`)
+
+This resolves the specific crop/source association: the working crop is exactly reproducible from the canonical original using the candidate rectangle. The missing SQLite region row remains a true gap in contemporaneous database provenance, but does not invalidate the now independently verified crop. Record the rectangle as retrospectively verified by pixel comparison, not as a region that had been saved at crop time.
+
+This verification supersedes the earlier “page-specific crop provenance remains unverified” status above. Historical notes are retained to preserve the audit trail; current status is **source, rectangle, crop dimensions, hash, and pixels verified**.
+
+Next geometric step: visually inspect the already-generated local trace audit overlay before changing the 21-point trace. In particular, resolve the flagged near-180° angular step between points 0 and 1 by checking point placement and trace direction against the crop itself. Do not use the better numerical fit as a reason to alter points without visual evidence.
