@@ -284,3 +284,7 @@ For this project, direct remote edits to the established working branch are auth
 7. Follow the repository handoff's branch/workflow rules. Here the right sequence is: inspect -> edit the established remote branch directly when authorized -> verify remote diff/content -> provide safe local diff/pull instructions -> user runs tests and checks the live workflow.
 8. Avoid claiming “main” when the repository's working branch is actually named `master`. Use the real ref discovered from the handoff/repository.
 
+
+## 12. Crop-bundle test result (2026-10-12)
+
+User-provided local output from `python -m pytest -q tests/test_region_crop_export.py`: `3 passed in 0.21s`. A non-fatal pytest-asyncio deprecation warning notes that `asyncio_default_fixture_loop_scope` is unset. The tests cover exact crop pixels and provenance manifest, modified-source rejection, and unknown-region rejection. This verifies the focused test file only; the live viewer/server workflow and downloaded ZIP inspection remain unverified. Do not ask for these tests to be rerun without a concrete reason.
