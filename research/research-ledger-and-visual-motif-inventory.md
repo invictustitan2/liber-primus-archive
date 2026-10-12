@@ -151,3 +151,14 @@ This ledger is a cumulative evidence record, not a progress scoreboard. Work on 
 - Keep the ledger cumulative and auditable. A blocked documentation edit must not be described as complete, and code review or a passing focused test must not be described as live-runtime validation.
 
 The goal is to protect the integrity of the research over time, not to maximize throughput.
+
+
+## Solved-text-first research framing (2026-10-12)
+
+A recent response relied on recollection instead of first consulting the archive. This is a research-process correction: future interpretations must be grounded in the existing transcription, key table, page index, prior-art analysis, and relevant page records. Exact source wording must be checked in context and kept distinct from interpretation.
+
+The page-73 transcription (book page 56) explicitly names primes and the totient function; the key table records a running-key method based on totients of primes. This is direct evidence that totient-related structure belongs to the puzzle's documented mathematical vocabulary. It is not evidence that every unsolved page or visual feature necessarily uses totients.
+
+The wider investigation may involve relationships among number theory, mathematical constants, historical figures and discoveries, literature, geographic placement, and timing. Do not treat these as decorative context, nor assume one category explains every clue. Record each candidate connection with its source, predictions, counterevidence, alternatives, and confidence; seek convergence across independent evidence.
+
+The page-57 quarter-turn growth estimate near 1.33 remains one exploratory measurement. It is not an established N-value, key, intended constant, or evidence of authorial intent. It depends on the selected points, fixed center, crop, measurement definition, and model. Preserve it provisionally and assess it in the context of the wider clue system. This amendment changes research framing only; it reports no new solve or analysis.
