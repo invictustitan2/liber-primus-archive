@@ -237,3 +237,50 @@ Those output files are user-reported local artifacts; their contents have not be
 - The result currently favors the free-slope logarithmic spiral by the reported pixel-distance metrics, subject to the numerical and trace limitations above.
 - Local overlay inspection and numerical convergence checks remain unreported. Do not assume they have occurred.
 - Preserve the output files and submitted trace. Do not rerun, alter the trace, generate additional reports, or make further repository changes unless the user requests the next action.
+
+## 11. Dated amendment — 2026-10-12: crop provenance export and repository workflow
+
+### Annotation-app fix now on remote `master`
+
+The user identified the missing crop-export provenance as a blocker because every downstream visual/geometric hypothesis test depends on knowing exactly which canonical source pixels were analyzed.
+
+Remote code inspection established the implementation gap:
+- Saving a region persists source linkage, source-pixel rectangle, annotation fields, and revision history in SQLite.
+- The prior viewer “Export crop PNG” path independently rendered the browser canvas and downloaded a PNG with no bundled source/region provenance.
+- Backend `extract_crop()` already supports verifying expected source SHA-256 and dimensions, so the correct fix is to use it against the managed canonical original rather than treating the browser preview as the research artifact.
+
+The following changes were committed directly to annotation-app `master` (not via PR):
+- `app/exports.py`: ZIP bundle with `crop.png` and `manifest.json`; manifest binds source ID/hash/dimensions and metadata, saved region and revision history, half-open source-pixel rectangle, crop dimensions/byte size/SHA-256.
+- `app/api.py`: authenticated region crop-bundle endpoint; source integrity errors are surfaced rather than exporting unverified pixels.
+- `app/static/viewer.js` and `viewer.html`: export is server-generated and requires a persisted region; selecting a new rectangle clears any previous saved-region ID so an unsaved rectangle cannot accidentally export a prior region's provenance.
+- `tests/test_region_crop_export.py`: tests for exact crop pixels and provenance manifest, source tamper rejection, and unknown region.
+- `docs/architecture.md`: documented the requirement.
+
+Relevant mainline commits (chronological file-by-file commits):
+- `514fdfc` exports service
+- `5151997` API route
+- `63001e0` viewer export behavior
+- `507f727` viewer label/help text
+- `9c2872f` architecture requirement
+- `e694f1c` tests
+- `9b6fe2a` clear stale region identity on a new selection
+
+**Validation status: not yet runtime-tested.** Repository file contents were re-read from remote `master`; this does not prove the user's local checkout has pulled them, that the live app has restarted, or that the tests pass. No CI run was available in the inspected result. The user is to pull locally and verify before using this path for research crops.
+
+### Process correction: do not create branches or PRs for this workflow
+
+The prior assistant wrongly created branch `fix/provenance-preserving-crop-export` and draft PR #1. The user explicitly expects the assistant to update the working branch directly, then they pull and run/inspect locally. The PR was closed unmerged; the accidental branch remains. Do not revive it or treat it as the delivery path.
+
+For this project, direct remote edits to the established working branch are authorized when the user asks to update code/docs. Do not create branches, PRs, parallel implementation paths, or extra workflow machinery unless the user explicitly asks. Preserve the user's local execution boundary: do not claim local DB/runtime/test status based on GitHub inspection. Before recommending a pull, give a non-destructive local/remote comparison command so existing local work and untracked research artifacts remain protected.
+
+### Hard-won implementation lessons for future agents
+
+1. Trace the actual code path before accepting a verbal description or proposing a new system. Inspect viewer event handlers, API route, service, source-integrity checks, DB/revision model, and export format together.
+2. Distinguish **persisted region provenance** from **downloaded crop artifact provenance**. A database region record does not automatically make an independently exported PNG provenance-bearing.
+3. Generate research crops from the verified canonical source using the saved region's source-pixel rectangle; don't use browser canvas output as the canonical artifact.
+4. Bind source ID/hash/dimensions + region ID/revisions + explicit coordinate convention + crop dimensions/hash into one portable artifact. Keep right/bottom-exclusive geometry explicit.
+5. When a user draws a new selection, clear the old selected region ID immediately. Otherwise a fresh rectangle can be confused with the previously persisted region and create a false provenance association.
+6. A remote commit is not a tested local workflow. Report separately what code was inspected, what was committed, what was executed, and what remains for the user to verify.
+7. Follow the repository handoff's branch/workflow rules. Here the right sequence is: inspect -> edit the established remote branch directly when authorized -> verify remote diff/content -> provide safe local diff/pull instructions -> user runs tests and checks the live workflow.
+8. Avoid claiming “main” when the repository's working branch is actually named `master`. Use the real ref discovered from the handoff/repository.
+
