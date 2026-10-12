@@ -306,3 +306,12 @@ This work is research, not a race to ship. Do not optimize for visible activity,
 8. **Hand off for continuity, not task volume.** A next agent should receive the current verified state, important constraints, unresolved questions, known hazards, and one evidence-based next step. Do not produce a long speculative task queue or restart settled work. If no further action is justified yet, say so and wait for evidence.
 
 The quality criterion is trustworthy accumulated research, not speed or the number of commits.
+
+
+## Solved-text-first research framing (2026-10-12)
+
+A recent response relied on recollection instead of first consulting the archive. Future agents must ground project-level interpretations in the actual research record. Read the transcription, key table, page index, prior-art analysis, and relevant page notes before drawing conclusions; distinguish exact source wording from interpretation.
+
+The solved text on page 73 (book page 56) explicitly names primes and the totient function, and the key table records a running-key method based on totients of primes. This makes totient structure part of the documented clue vocabulary, but does not establish that every unsolved page or visual feature uses it. Consider candidate relationships with mathematical constants, historical figures, literature, geographic placement, and timing without assuming a single mechanism explains all clues.
+
+The page-57 quarter-turn growth estimate near 1.33 is one exploratory measurement, not an established N-value, key, intended constant, or proof of authorial intent. Keep it provisional and assess it against the broader evidence. This is a framing correction, not a new solve or analysis.
