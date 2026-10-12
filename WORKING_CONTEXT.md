@@ -393,3 +393,23 @@ Use this path map at the start of every session. These are the established worki
 4. The local annotation database is not inspected by reading `database.py`; that file defines code/schema behavior. Only a database query or artifact actually supplied by the user establishes live DB contents.
 5. The shell prompt's displayed directory/version is contextual evidence, not a substitute for the explicit target path, Git top-level, remote URL, ref, tree SHA, or artifact provenance. Ask for additional local evidence only if the existing record cannot answer a specific, material question. Never ask the user to re-prove a path or provenance fact already established in the handoff.
 
+
+
+## 16. Cross-project continuity failure and correction (2026-10-12)
+
+This amendment records a collaboration failure, not a Liber Primus finding. Keep it separate from puzzle evidence and do not treat the Bastos archive as part of this repository.
+
+In a conversation spanning the user's independent projects, the user asked whether the assistant remembered the initial prompt that framed the work. The assistant did not have that exact prompt available in the visible context and eventually admitted this, but before doing so repeatedly substituted broad, polished explanations for retrieval and accurate engagement with the user's actual work. It then misread the user's reference to the assistant's failure as a request to inspect the local Bastos archive, supplied a shell command that made the user perform more work, and continued interpreting the pasted Bastos synthesis instead of first recognizing the specific criticism. The user explicitly objected to this behavior.
+
+The pasted Bastos document, `THE-CLASS-THE-APPARATUS-HUNTS.md`, describes person-free investigative synthesis concerning ICE ISAP: public procurement and SEC records, reverse-engineering of the public SmartLINK app, quantified limits on the financial claims, explicit technical and evidentiary boundaries, and a deliberate hold on transmission to avoid harming individuals while addressing the institutional class. Those are statements in the user-provided document; this assistant did not inspect the complete local Bastos archive and must not claim it did.
+
+### Required correction
+
+- Do not conflate separate projects or infer that a request concerning assistant continuity authorizes inspection of a local repository.
+- When asked about an original prompt or prior instruction, distinguish exact retrievable text from remembered context and inference. If the exact text is unavailable, say so immediately; do not reconstruct it as if remembered.
+- When the user criticizes assistant behavior, address the specific observed behavior before generalizing it into an abstract discussion of AI reliability, burden, trust, or safety.
+- Do not make the user run commands or inspect infrastructure to compensate for the assistant's failure to retrieve context. The local Bastos path is not accessible through the GitHub connector; the user's pasted document is evidence of that document's contents, not of the entire archive.
+- Do not convert the Bastos document into a generalized metaphor for Liber Primus or Cicada 3301. Any cross-project relationship requires explicit, source-grounded support and must remain separate from established project facts.
+- This entry documents the process failure and prevention rules only. It adds no new interpretation, measurement, or conclusion about Liber Primus, Cicada 3301, or the user's other projects.
+
+Acceptance criterion: a future session can distinguish the user's original instruction (if actually available), the current project record, user-supplied excerpts from other projects, and assistant inference without making the user repeat work or accept a substitute narrative.
