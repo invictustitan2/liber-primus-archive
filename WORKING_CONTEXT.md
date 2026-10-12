@@ -288,3 +288,21 @@ For this project, direct remote edits to the established working branch are auth
 ## 12. Crop-bundle test result (2026-10-12)
 
 User-provided local output from `python -m pytest -q tests/test_region_crop_export.py`: `3 passed in 0.21s`. A non-fatal pytest-asyncio deprecation warning notes that `asyncio_default_fixture_loop_scope` is unset. The tests cover exact crop pixels and provenance manifest, modified-source rejection, and unknown-region rejection. This verifies the focused test file only; the live viewer/server workflow and downloaded ZIP inspection remain unverified. Do not ask for these tests to be rerun without a concrete reason.
+
+
+## 13. Research integrity, pacing, and agent handoff (2026-10-12)
+
+This work is research, not a race to ship. Do not optimize for visible activity, rapid closure, or the volume of changes. The pace is set by the evidence and the care needed to preserve it. An LLM can help inspect, implement, compare, and document; it cannot replace local verification, human judgment, or the researcher's responsibility for interpretation. A careless or poorly bounded change can contaminate later reasoning and undermine confidence in otherwise sound work.
+
+### Required operating discipline
+
+1. **Read before acting.** Before work on an existing thread, read this file, the cumulative research ledger, and the relevant dated notes. Treat those records as active context, not optional background. Do not make the user repeat facts or rerun checks already recorded unless a specific reason makes them necessary.
+2. **Separate evidence classes.** Keep directly inspected repository state, user-reported observations, automated test output, runtime verification, interpretations, and hypotheses distinct. Never upgrade a hypothesis to a finding or a code review to a runtime result.
+3. **Make only justified changes.** Prefer the smallest change that resolves a defined need. Avoid opportunistic refactors, unrelated edits, speculative analysis, and creating scripts, reports, branches, commits, or PRs merely to show progress. Respect existing branch and repository boundaries.
+4. **Pace to verification.** There is no shipping deadline implied by this workflow. Do not rush implementation or declare work complete while important evidence is missing. Pause and state the uncertainty when the next safe action is not supported by evidence.
+5. **Preserve provenance and reversibility.** Do not silently rewrite source data, annotations, coordinates, prior results, or their meanings. Record what changed, why, what evidence supports it, and any limitations. Keep original artifacts and historical corrections distinguishable.
+6. **Keep the collaboration boundary explicit.** The assistant works through GitHub and connected tools for repository inspection, authorized edits, review, and documentation. The user operates local infrastructure, the live application, local databases and artifacts, and local tests or analyses that require their environment. Each side reports only what it actually observed or executed.
+7. **Report state without manufacturing momentum.** For each meaningful change, identify the exact file/ref and commit where applicable, the verification performed, and what remains unverified. A blocked write remains blocked. A passing focused test does not establish live workflow correctness.
+8. **Hand off for continuity, not task volume.** A next agent should receive the current verified state, important constraints, unresolved questions, known hazards, and one evidence-based next step. Do not produce a long speculative task queue or restart settled work. If no further action is justified yet, say so and wait for evidence.
+
+The quality criterion is trustworthy accumulated research, not speed or the number of commits.
