@@ -136,3 +136,18 @@ Next geometric step: visually inspect the already-generated local trace audit ov
 **Execution boundary:** the user runs all local commands, scripts, numerical analysis, and local output generation/inspection. The assistant must not use local execution tools, claim to inspect local-only outputs, or create unrequested scripts, branches, reports, commits, or PRs. Read `WORKING_CONTEXT.md`, this ledger, and relevant dated notes before acting; follow the recorded sequence and ask for local evidence only when it is necessary and not already supplied.
 
 **Process incident:** an assistant-created branch `analysis/page57-fixed-center-orthogonal-comparison` contains an unvalidated, unrequested script `scripts/compare_page57_spiral_fixed_center.py`. It is not an approved deliverable and produced no validated results. No further changes to it should be made without explicit user instruction.
+
+
+## Research integrity and pacing protocol (2026-10-12)
+
+This ledger is a cumulative evidence record, not a progress scoreboard. Work on the Liber Primus archive must proceed at the pace required for careful verification; there is no implied rush to ship. LLM assistance can accelerate bounded inspection and documentation, but it cannot replace human judgment or evidence from the researcher's local environment. A careless change or unsupported inference can propagate through later work and degrade the reliability of the whole record.
+
+- Read `WORKING_CONTEXT.md`, this ledger, and relevant dated notes before acting. Use the existing record; do not ask the user to repeat established context or rerun completed checks without a concrete reason.
+- Label evidence precisely: direct artifact/repository inspection, user-reported result, automated test, runtime verification, interpretation, and hypothesis are not interchangeable.
+- Make the smallest justified change. Do not add speculative analyses, scripts, reports, branches, commits, or PRs just to create activity. Do not change source artifacts or prior measurements silently.
+- Preserve uncertainty and contradictory evidence. Do not present a better fit, visual resemblance, or plausible interpretation as proof of authorial intent. Record metric definitions, assumptions, limitations, and provenance when adding results.
+- Respect the collaboration boundary: the assistant can work through GitHub and connected tools; the user runs local infrastructure, application workflows, local database/artifact inspection, and local analysis. Neither party should claim observations only the other can establish.
+- Every handoff should state what is verified, what is only reported, what remains unknown, and the single most justified next step. No deadline-driven closure; if evidence is insufficient, pause rather than manufacture certainty.
+- Keep the ledger cumulative and auditable. A blocked documentation edit must not be described as complete, and code review or a passing focused test must not be described as live-runtime validation.
+
+The goal is to protect the integrity of the research over time, not to maximize throughput.
