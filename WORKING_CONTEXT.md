@@ -315,3 +315,19 @@ A recent response relied on recollection instead of first consulting the archive
 The solved text on page 73 (book page 56) explicitly names primes and the totient function, and the key table records a running-key method based on totients of primes. This makes totient structure part of the documented clue vocabulary, but does not establish that every unsolved page or visual feature uses it. Consider candidate relationships with mathematical constants, historical figures, literature, geographic placement, and timing without assuming a single mechanism explains all clues.
 
 The page-57 quarter-turn growth estimate near 1.33 is one exploratory measurement, not an established N-value, key, intended constant, or proof of authorial intent. Keep it provisional and assess it against the broader evidence. This is a framing correction, not a new solve or analysis.
+
+
+## Repository-boundary incident and correction (2026-10-12)
+
+A troubleshooting exchange confused the annotation-app checkout with the separate research-archive checkout. The user ran archive commit checks while still in `lp-annotation`; Git correctly reported the archive commit IDs as unknown objects. This was expected because Git object databases are repository-specific and did not establish anything about the local archive checkout. The assistant should have caught the path mismatch before requesting commands.
+
+**Repository map — state the target repository and working directory explicitly before any local command:**
+- Annotation app: `/home/dreamboat/projects/lp-annotation/app`, remote `invictustitan2/lp-annotation`, branch `master`.
+- Research archive: `~/archives/liber-primus-archive`, remote `invictustitan2/liber-primus-archive`, branch `main`.
+- Archive documentation commits `ff08333b3c932880006d4dc335120692bf02afea` (`WORKING_CONTEXT.md`) and `fac9c6a5a08359a4f1852c64e236481dc6d15e45` (research ledger) belong only to the archive repository. They cannot be inspected with `git show` from the annotation-app checkout unless those objects were independently added there.
+- The user's reported annotation-app state is local `master` at `9b6fe2a55e50ca739c6d347ccc3a21adf9cc15d0`, clean and synchronized with `origin/master`. This establishes that commit only; it does not prove the running GUI uses the code or that the crop-export workflow has been runtime-verified.
+- Remote GitHub inspection establishes remote contents only. Do not imply archive documentation is present in the user's local archive checkout without local evidence.
+
+**Required troubleshooting procedure:** first identify which repository the user is actually in from their prompt/output; do not assume they switched directories. Before providing commands, name the intended checkout and use an explicit `cd` (or ask them to switch) when needed. Keep each repository's commit IDs, branch state, and synchronization claims separate. Never use a missing object in one repository as evidence about another. When a command was issued against the wrong checkout, acknowledge the mismatch and correct the procedure without making the user repeat unrelated diagnostics.
+
+This is a process correction. It does not change application code, research artifacts, or the verified status of the two repositories' separate remote commits.
