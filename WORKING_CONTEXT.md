@@ -371,3 +371,25 @@ The preceding subsection, “Follow-up: checkout/tree identity and database layo
 The reported focused test result and the later local/remote tree observations must retain their respective provenance. The test result must not be attributed to the user as a personally executed run unless the provenance record says that; equally, it must not be dismissed or invalidated solely because the assistant cannot currently reconcile it with a tracked-tree listing. The user's prior provenance clarification controls. Any remaining causal investigation must start from that established record and must not ask the user to re-establish it.
 
 **Acceptance criterion for future sessions:** an agent can state what each artifact is, where it came from, what its hash/identity proves, who or what actually observed or executed it, and what is genuinely unresolved—without asking the user to repeat an already documented provenance explanation or completed task.
+
+## 15. Canonical working paths and repository boundaries (2026-10-12)
+
+Use this path map at the start of every session. These are the established working paths; do not infer a different checkout from the shell prompt, a repository name, or a file's path in a remote tree.
+
+| Purpose | Established path / identity | Boundary |
+|---|---|---|
+| Liber Primus research archive checkout | `~/archives/liber-primus-archive` | Git remote `invictustitan2/liber-primus-archive`, branch `main`. This is where this handoff and the cumulative research ledger live. |
+| Annotation-app local source working path | `/home/dreamboat/projects/lp-annotation/app` | GitHub project `invictustitan2/lp-annotation`, branch `master`, reported version/tag `v3.12.3`. Do not assume that the directory's name determines the Git top-level or the paths stored in its tree. |
+| Annotation-app local data | `~/.local/share/lp-annotation/` | Local-only data, including `annotations.sqlite3`; not the research archive and not interchangeable with the source checkout. |
+| Tight page-57 spiral crop | `data/raw/page57-spiral/page57_spiral_working.png` within the archive | Archive artifact; source rectangle and SHA-256 are recorded in Section 4 and its sidecar. Preserve it. |
+| Broader page-57 contextual crop | `data/raw/page57-spiral/page57_spiral_left.png` within the archive | Separate archive artifact with a distinct purpose and unresolved rectangle/path detail, as recorded in Section 4. Do not conflate with the tight crop. |
+| Submitted page-57 trace | `data/raw/page57-spiral/trace_points_working.csv` and corresponding JSON sidecar within the archive | Preserve submitted coordinates and provenance; point 0 is the fixed center/reference, points 1–20 are curve samples. |
+
+### Path-resolution rules
+
+1. When referring to an archive file, state its archive-relative path and, for local commands, anchor the command at `~/archives/liber-primus-archive`. When referring to app source or its data, explicitly name the app-source path or data path. Never use an ambiguous relative path like `tests/...` without naming the checkout it is relative to.
+2. Before proposing a command, establish which of these locations it targets. Use explicit `git -C /absolute/or/home-relative/path` commands when appropriate; do not rely on the user's current shell directory or prompt label.
+3. **Do not silently normalize the annotation checkout's internal layout.** Prior output from `git -C /home/dreamboat/projects/lp-annotation/app ...` matched `HEAD:api.py`, `HEAD:exports.py`, and `HEAD:static/viewer.js`. A remote tree inspection was recorded as containing `app/api.py`, `app/exports.py`, `app/static/viewer.js`, `app/database.py`, and `tests/test_region_crop_export.py`. These observations have not been causally reconciled. Preserve the literal paths and their source (local command output versus remote GitHub tree); do not claim they are the same tree solely because a commit label was reported.
+4. The local annotation database is not inspected by reading `database.py`; that file defines code/schema behavior. Only a database query or artifact actually supplied by the user establishes live DB contents.
+5. The shell prompt's displayed directory/version is contextual evidence, not a substitute for the explicit target path, Git top-level, remote URL, ref, tree SHA, or artifact provenance. Ask for additional local evidence only if the existing record cannot answer a specific, material question. Never ask the user to re-prove a path or provenance fact already established in the handoff.
+
