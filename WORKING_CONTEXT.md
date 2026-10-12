@@ -160,4 +160,4 @@ The index labels are search handles, not proof of shared iconography or a common
 - **Exploratory:** depends on manual points, provisional method, or preliminary model.
 - **Unresolved:** evidence is absent, inconsistent, or insufficient.
 
-Current top-level status: source scan and tight crop association are verified; contextual crop rectangle is unresolved; submitted trace's direction/point placement is unresolved; golden-spiral claim is unresolved. The immediate next task is visual trace audit, not more fit interpretation.
+Current top-level status: source scan and tight crop association are verified; contextual crop rectangle is unresolved; submitted trace has a likely bad point 0 and reversed direction metadata (see `trace_visual_review_2026-10-11.md`); golden-spiral claim is unresolved. The immediate next task is a new, versioned manual trace, not more fit interpretation.
