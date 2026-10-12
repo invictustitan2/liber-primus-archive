@@ -171,3 +171,69 @@ Current top-level status: source scan and tight crop association are verified; c
 The assistant previously acted without authorization by creating branch `analysis/page57-fixed-center-orthogonal-comparison` and adding `scripts/compare_page57_spiral_fixed_center.py`. The script was not run or validated. This was contrary to the user's explicit boundary that all local execution and output inspection are performed by the user, and that assistant work should be grounded in the existing handoff. Do not treat that branch or script as an approved deliverable or as evidence of computed results. Do not make additional repository changes to it unless the user explicitly requests a specific action. The user's immediate requested correction was documentation, so the process rules and geometry clarification are recorded here before any further work.
 
 The fixed-center radial-log baseline in the Next actions section is user-reported completed work; it is recorded context, not a task to repeat. The next substantive geometry work remains pending authorization and any required local visual-review evidence.
+
+
+## 12. Session amendment — fixed-center orthogonal comparison (2026-10-11)
+
+This dated amendment supersedes the pending-status statements in Sections 9–11 where they conflict with the work recorded below. Earlier notes remain as historical context.
+
+### User's continuation handoff and interaction correction
+
+The user opened this session with a handoff containing the current repository state, the annotated page-57 spiral image, and the identified defect in the first nearest-point calculation. That handoff was the instruction to continue from, not a request to summarize project status or restate next steps. The assistant initially misread it, repeated known context, and then incorrectly responded to “proceed” by offering a manual code patch. The user explicitly corrected this workflow. In response, the assistant updated the existing comparison script directly on GitHub main, so the user could pull it rather than manually editing code.
+
+Keep the handoff as an operative continuation instruction. Do not make the user restate known steps, substitute a generic summary for action, or hand back a manual patch when an authorized direct repository edit is available.
+
+### Comparison script update on GitHub
+
+- File: scripts/compare_page57_spiral_fixed_center.py
+- Update commit: 2fb4eaf78b8f307c201c378479a64d77679887aa
+- Commit URL: https://github.com/invictustitan2/liber-primus-archive/commit/2fb4eaf78b8f307c201c378479a64d77679887aa
+- Current script URL: https://github.com/invictustitan2/liber-primus-archive/blob/main/scripts/compare_page57_spiral_fixed_center.py
+- Change: replaced a single bounded scalar minimization over the full angular interval with a dense uniform grid (4,097 samples), detection of all sampled local-minimum brackets, bounded refinement of each detected bracket, and explicit inclusion of both interval endpoints. The script records the search method, grid size, refinement tolerance, and the limitation that this is not a formal global-minimum proof.
+- Purpose: reduce the risk that a bounded optimizer returns a local minimum rather than the nearest point on the parametric curve. This is a numerical approximation; narrow minima can still be missed between grid samples. Convergence at higher grid resolutions has not been reported.
+- The GitHub edit was fetched again and its updated content SHA verified. The assistant did not execute the script or generate local artifacts.
+
+### User-run result after the update
+
+The user ran the updated script locally from the repository checkout with the .wf-venv activated:
+
+```text
+python scripts/compare_page57_spiral_fixed_center.py
+status: exploratory; fixed-center orthogonal-distance comparison
+fixed_center_crop_px: [176.048, 124.437]
+
+free_log_spiral:
+  slope: -0.1231028193898341
+  quarter_turn_growth_factor: 1.2133309837582051
+  orthogonal_distance_rms_px: 12.903533322163158
+  orthogonal_distance_max_px: 25.737251200383692
+
+golden_log_spiral:
+  slope: -0.30634896253003313
+  quarter_turn_growth_factor: 1.618033988749895
+  orthogonal_distance_rms_px: 24.39977484095945
+  orthogonal_distance_max_px: 48.137737801362036
+```
+
+The run reported these local output paths:
+
+- Overlay: data/raw/page57-spiral/fixed_center_orthogonal_comparison.png
+- JSON report: data/raw/page57-spiral/fixed_center_orthogonal_comparison.json
+
+Those output files are user-reported local artifacts; their contents have not been independently inspected through the GitHub connector. The output indicates that, under this script's current fixed-center orthogonal-distance objective and numerical search, the free-slope logarithmic spiral has lower RMS and maximum point-to-curve distances than the golden-constrained spiral. The free fit's quarter-turn growth is about 1.2133, compared with the golden value 1.6180. This is an exploratory result, not a conclusion about symbolic intent or construction.
+
+### Required qualifications
+
+1. This comparison fixes the visual reference center at crop coordinates (176.048, 124.437); it excludes point 0 from curve samples and scores only points 1–20. Submitted CSV/JSON remain unchanged.
+2. The metric is Euclidean nearest-point distance to the parametric curve in crop pixels, with both models using the same finite angular interval. The nearest-point search uses a 4,097-point grid plus local refinement and endpoint checks; it is not a proof of a global minimum.
+3. No higher-resolution convergence comparison is included in the reported output. Do not claim that the grid search is fully validated or globally exact.
+4. The overlay has not been visually reviewed in the conversation. Do not claim that the fit follows the visible ink, that endpoint effects are absent, or that the trace is free of placement/order errors.
+5. The fit compares only a free logarithmic spiral with a golden-constrained logarithmic spiral. It does not test other curve families, account for uncertainty in the manual trace or fixed center, or establish authorial intent.
+6. These results use a different objective from the earlier radial-log baseline. Do not compare the numerical RMS values across those different metrics as though they were commensurate.
+
+### Current continuation state
+
+- The first fixed-center orthogonal-distance comparison has now been run by the user; the earlier statement that this comparison was still pending is superseded.
+- The result currently favors the free-slope logarithmic spiral by the reported pixel-distance metrics, subject to the numerical and trace limitations above.
+- Local overlay inspection and numerical convergence checks remain unreported. Do not assume they have occurred.
+- Preserve the output files and submitted trace. Do not rerun, alter the trace, generate additional reports, or make further repository changes unless the user requests the next action.
