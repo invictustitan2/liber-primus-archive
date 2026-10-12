@@ -126,3 +126,13 @@ This resolves the specific crop/source association: the working crop is exactly 
 This verification supersedes the earlier “page-specific crop provenance remains unverified” status above. Historical notes are retained to preserve the audit trail; current status is **source, rectangle, crop dimensions, hash, and pixels verified**.
 
 Next geometric step: visually inspect the already-generated local trace audit overlay before changing the 21-point trace. In particular, resolve the flagged near-180° angular step between points 0 and 1 by checking point placement and trace direction against the crop itself. Do not use the better numerical fit as a reason to alter points without visual evidence.
+
+## Page-57 workflow and geometry correction (2026-10-11)
+
+**User clarification:** point 0 `(176.048, 124.437)` is a manually placed fixed center/reference, not a curve sample. Points 1–20 are the 20 spiral samples. For fixed-center model comparisons, hold point 0 fixed and evaluate only points 1–20. Earlier text describing point 0 as a likely bad tracing click or as a curve sample is superseded for this analysis and must not be repeated as current fact. The submitted CSV/JSON remain unchanged.
+
+**Completed fixed-center radial-log baseline (user-reported; do not rerun):** free slope `-0.17831`, golden-constrained slope `-0.30635`; RMS log-radius residuals `0.26060` and `0.43509`; multiplicative RMS factors `1.298×` and `1.545×`; quarter-turn growth `1.323×` and `1.618×`; angular span about 1.58 turns for both. This metric is radial log-space, not orthogonal pixel distance.
+
+**Execution boundary:** the user runs all local commands, scripts, numerical analysis, and local output generation/inspection. The assistant must not use local execution tools, claim to inspect local-only outputs, or create unrequested scripts, branches, reports, commits, or PRs. Read `WORKING_CONTEXT.md`, this ledger, and relevant dated notes before acting; follow the recorded sequence and ask for local evidence only when it is necessary and not already supplied.
+
+**Process incident:** an assistant-created branch `analysis/page57-fixed-center-orthogonal-comparison` contains an unvalidated, unrequested script `scripts/compare_page57_spiral_fixed_center.py`. It is not an approved deliverable and produced no validated results. No further changes to it should be made without explicit user instruction.
