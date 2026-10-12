@@ -65,16 +65,49 @@ def curve_xy(theta, a, b):
         center[1] + radius * np.sin(theta),
     ))
 
-def closest_for_point(point, a, b):
+def closest_for_point(point, a, b, grid_size=4097):
+    """Approximate the global nearest point by bracketing every grid-local minimum.
+
+    A single bounded minimization over the full interval is unsafe here because
+    squared distance to a logarithmic spiral can be multimodal. This routine
+    samples the full shared interval, refines every detected local-minimum
+    bracket, and explicitly includes both interval endpoints. The finite grid
+    makes this a convergence-checkable numerical approximation, not a formal
+    global-minimum proof.
+    """
+    grid = np.linspace(theta_min, theta_max, grid_size)
+    curve = curve_xy(grid, a, b)
+    offsets = curve - point
+    values = np.einsum("ij,ij->i", offsets, offsets)
+
+    # Include both endpoints; the closest point may lie on a search boundary.
+    candidates = [
+        (float(values[0]), float(grid[0])),
+        (float(values[-1]), float(grid[-1])),
+    ]
+
+    # Find all sampled local-minimum brackets, not just the best grid sample.
+    local_minima = np.flatnonzero(
+        (values[1:-1] <= values[:-2])
+        & (values[1:-1] <= values[2:])
+    ) + 1
+
     def squared_distance(theta):
         q = curve_xy(np.array([theta]), a, b)[0]
         return float(np.sum((q - point) ** 2))
-    opt = minimize_scalar(
-        squared_distance, bounds=(theta_min, theta_max),
-        method="bounded", options={"xatol": 1e-9, "maxiter": 300},
-    )
-    q = curve_xy(np.array([opt.x]), a, b)[0]
-    return float(np.linalg.norm(q - point)), float(opt.x), q
+
+    for i in local_minima:
+        opt = minimize_scalar(
+            squared_distance,
+            bounds=(float(grid[i - 1]), float(grid[i + 1])),
+            method="bounded",
+            options={"xatol": 1e-10, "maxiter": 300},
+        )
+        candidates.append((squared_distance(opt.x), float(opt.x)))
+
+    best_d2, best_theta = min(candidates, key=lambda item: item[0])
+    q = curve_xy(np.array([best_theta]), a, b)[0]
+    return math.sqrt(max(0.0, best_d2)), best_theta, q
 
 def score(a, b, include_details=False):
     details = [closest_for_point(p, a, b) for p in points]
@@ -184,7 +217,13 @@ result = {
         "quarter_turn_growth_factor": PHI,
         "signed_slope_for_decreasing_unwrapped_angle": B_GOLDEN,
     },
-    "metric": "For each trace sample, minimize Euclidean distance to each parametric curve over one shared bounded theta interval; RMS of these nearest-point distances is reported in crop pixels.",
+    "metric": "For each trace sample, sample the shared bounded theta interval, refine every detected grid-local minimum of squared Euclidean distance, include both interval endpoints, and report RMS nearest-point distance in crop pixels.",
+    "nearest_point_search": {
+        "method": "dense uniform grid plus bounded refinement of every detected sampled local-minimum bracket; both interval endpoints included",
+        "grid_size": 4097,
+        "refinement_xatol_rad": 1e-10,
+        "globality_note": "Numerical approximation, not a formal global-minimum guarantee; repeat at higher grid resolution to check convergence."
+    },
     "theta_search_interval_rad": [theta_min, theta_max],
     "initial_log_polar_estimate": {"a": float(a0), "b": float(b0)},
     "optimizer": {
@@ -197,7 +236,7 @@ result = {
     "limitations": [
         "The manual trace is sparse and its points are not re-digitized or automatically adjusted.",
         "The center is fixed to the user's visual reference estimate, not fitted or independently validated as the mathematical center.",
-        "Nearest-point distances are optimized numerically over a finite angular interval; inspect the overlay and per-point distances for endpoint effects.",
+        "Nearest-point distances use a finite-grid search with local-minimum refinement; this is not a formal global-minimum proof. Check convergence at higher grid resolutions and inspect per-point distances for endpoint effects.",
         "Only logarithmic spirals are compared; other curve families and trace perturbations remain untested.",
         "Fit quality does not establish symbolic intent.",
     ],
